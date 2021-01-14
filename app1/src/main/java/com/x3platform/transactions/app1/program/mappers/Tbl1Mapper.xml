@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x3platform.transactions.app1.program.mappers.Tbl1Mapper">
+  <resultMap id="BaseResultMap" type="com.x3platform.transactions.app1.program.models.Tbl1">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, `name`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_1
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_1
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.x3platform.transactions.app1.program.models.Tbl1" useGeneratedKeys="true">
+    insert into tbl_1 (`name`, `created_date`) values (#{name,jdbcType=VARCHAR}, CURRENT_TIMESTAMP)
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.x3platform.transactions.app1.program.models.Tbl1" useGeneratedKeys="true">
+    insert into tbl_1
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      `created_date`
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      CURRENT_TIMESTAMP
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.x3platform.transactions.app1.program.models.Tbl1">
+    update tbl_1
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.x3platform.transactions.app1.program.models.Tbl1">
+    update tbl_1
+    set `name` = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

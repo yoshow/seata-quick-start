@@ -1,0 +1,75 @@
+server:
+  port: 18003
+
+logging.level:
+  # DEBUG | INFO
+  root: INFO
+
+spring.application.name: x3platform-app3-program
+
+# -------------------------------------------------------
+# 数据源 配置
+# -------------------------------------------------------
+
+spring.datasource:
+  driver-class-name: com.mysql.jdbc.Driver
+  type: com.alibaba.druid.pool.DruidDataSource
+  url: jdbc:mysql://${X3_MYSQL_HOST}:${X3_MYSQL_PORT}/seata_app_3?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+  username: ${X3_MYSQL_USERNAME}
+  password: ${X3_MYSQL_PASSWORD}
+
+# -------------------------------------------------------
+# Spring Cloud 配置
+# -------------------------------------------------------
+
+spring.cloud:
+  # 注册中心地址
+  nacos:
+    discovery:
+      ip: localhost
+      # discovery.server-addr=127.0.0.1:8848
+      server-addr: 'nacos.x3platform.com:8848'
+      # 命名空间
+      namespace: 'f050013e-a89a-4c51-af5a-970471d23b4d'
+      # group: 'SEATA_GROUP'
+    config:
+      server-addr: 'nacos.x3platform.com:8848'
+      # 命名空间
+      namespace: 'f050013e-a89a-4c51-af5a-970471d23b4d'
+      # group: 'SEATA_GROUP'
+
+# -------------------------------------------------------
+# Mybatis 配置
+# -------------------------------------------------------
+
+mybatis:
+  mapper-locations:
+    - classpath:mappers/*.xml
+
+# -------------------------------------------------------
+# Seata 配置
+# -------------------------------------------------------
+
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  tx-service-group: my_test_tx_group
+  config:
+    type: nacos
+    nacos:
+      server-addr: 'nacos.x3platform.com:8848'
+      group: 'SEATA_GROUP'
+      namespace: "f050013e-a89a-4c51-af5a-970471d23b4d"
+      username: ''
+      password: ''
+  registry:
+    type: nacos
+    nacos:
+      # 需要和 server 端保持一致，即 server 在 nacos 中的名称，默认为 seata-server
+      application: seata-service
+      server-addr: 'nacos.x3platform.com:8848'
+      group: 'SEATA_GROUP'
+      namespace: "f050013e-a89a-4c51-af5a-970471d23b4d"
+      username: ''
+      password: ''
+      cluster: default
